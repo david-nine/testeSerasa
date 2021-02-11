@@ -1,0 +1,4 @@
+class Config:
+    SECRET_KEY = '1455422485514556'
+    SQLALCHEMY_DATABASE_URI = 'sqlite:///banco.db'
+    SQLALCHEMY_TRACK_MODIFICATIONS = False

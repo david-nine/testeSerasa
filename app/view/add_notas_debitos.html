@@ -1,0 +1,11 @@
+{%extends "base.html"%}
+{%from "help.html" import render_field %}
+{%block main%}
+<h1>{{nome}}</h1>
+<form action="/cadastrar" method="post">
+    {{form.csrf_token}}
+    {{render_field(form.notas)}}
+    {{render_field(form.bebitos)}}
+    {{form.submit}}
+</form>
+{%endblock%}
