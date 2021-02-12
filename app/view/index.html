@@ -1,36 +1,31 @@
 {%extends "base.html"%}
 {%block main%}
 {% if empresas != []: %}
-<style>
-    td, th{
-        border: 1px solid black;
-        border-collapse: collapse;
-        padding: 3px;
-    }
-    table{
-        border-collapse: collapse;
-    }
-</style>
-<table>
-    <tr>
-        <th>nome</th>
-        <th>índice</th>
-        <th>notas</th>
-        <th>debitos</th>
-        <th></th>
-    </tr>
+<table class="table table-striped">
+    <thead>
+      <tr>
+        <th scope="col">nome</th>
+        <th scope="col">índice</th>
+        <th scope="col">Notas</th>
+        <th scope="col">Débitos</th>
+      </tr>
+    </thead>
+    <tbody>
     {% for empresa in empresas: %}
-    <tr>
+      <tr>
         <td>{{empresa.nome}}</td>
         <td>{{empresa.indice}}</td>
         <td>{{empresa.notas}}</td>
         <td>{{empresa.debitos}}</td>
-        <td><a href="/adicionar_notas_debitos/{{empresa.nome}}">Editar</a></td>
-    </tr>
+        <td><button type="button" class="btn btn-secondary"><a href="/adicionar_notas_debitos/{{empresa.nome}}" style="text-decoration:none;color:black;">Editar</a></button>
+      </tr>
     {% endfor %}
-</table>
+    </tbody>
+  </table>
 {% else: %}
 <p>Não há empresas cadastradas</p>
 {% endif %}
-<a href="/cadastrar_empresa">Adicionar empresa</a>
+<div style="text-align: center;">
+<button type="button" class="btn btn-secondary btn-lg"><a href="/cadastrar_empresa" style="text-decoration:none;color:black;">Adicionar empresa</a>
+</button></div>
 {%endblock%}

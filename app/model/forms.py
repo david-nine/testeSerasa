@@ -40,8 +40,8 @@ class FormNotaDebito(FlaskForm):
     submit : boolean
         Botão para enviar o formulário
     '''
-    notas = IntegerField("Quantidade de notas", 
+    notas = IntegerField("Notas", 
                          validators=[InputRequired("Digite um número inteiro")])
-    debitos = IntegerField("Quantidade de débitos", 
+    debitos = IntegerField("Débitos", 
                            validators=[InputRequired("Digite um número inteiro")])
     submit = SubmitField("Confirmar")

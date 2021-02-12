@@ -1,11 +1,18 @@
 {%extends "base.html"%}
 {%from "help.html" import render_field %}
 {%block main%}
-<h1>{{nome}}</h1>
-<form action="/adicionar_notas_debitos/{{nome}}" method="post">
-    {{form.csrf_token}}
-    {{render_field(form.notas)}}
-    {{render_field(form.debitos)}}
-    {{form.submit}}
-</form>
+<style>
+    .form{
+        text-align: center;
+    }
+</style>
+<div class="form">
+    <h1>{{nome}}</h1>
+    <form action="/adicionar_notas_debitos/{{nome}}" method="post">
+        {{form.csrf_token}}
+        {{render_field(form.notas)}}
+        {{render_field(form.debitos)}}
+        {{form.submit}}
+    </form>
+</div>
 {%endblock%}
