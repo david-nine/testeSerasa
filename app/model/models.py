@@ -20,10 +20,11 @@ class EmpresaModel(db.Model):
     debitos : integer
         quantidade de débitos da empresa
     '''
-    nome = db.Column(db.String(100), primary_key=True)
+    id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+    nome = db.Column(db.String(100))
     indice = db.Column(db.Integer, default=50)
     notas = db.Column(db.Integer, default=0)
     debitos = db.Column(db.Integer, default=0)
 
     def __repr__(self):
-        return f"EmpresaModel('{self.nome}', '{self.indice}', '{self.notas}', '{self.debitos}')"
+        return f"EmpresaModel('{self.id}', '{self.nome}', '{self.indice}', '{self.notas}', '{self.debitos}')"

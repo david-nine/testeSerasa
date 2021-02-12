@@ -23,11 +23,6 @@ class FormEmpresa(FlaskForm):
     submit = SubmitField("Confirmar")
 
 
-    def validate_nome(self, nome):
-        verificacao = EmpresaModel.query.filter_by(nome=nome.data).first()
-        if verificacao != None:
-            raise ValidationError('Ja tem essa empresa')
-
 class FormNotaDebito(FlaskForm):
     '''Formulário para adicionar notas e débitos a uma empresa
 

@@ -39,8 +39,8 @@ def cadastrar_empresa():
     return render_template("cadastrar_empresa.html", 
                            form=form)
 
-@app.route("/adicionar_notas_debitos/<nome>", methods=["post", "get"])
-def adicionar_notas_debitos(nome):
+@app.route("/adicionar_notas_debitos/<id>", methods=["post", "get"])
+def adicionar_notas_debitos(id):
     '''Adiciona notas e débitos à empresa selecionada.
 
     Um formulário que adiciona débitos e notas e calcula o novo índice
@@ -53,12 +53,11 @@ def adicionar_notas_debitos(nome):
         nome da empresa selecionada na tela anterior 
     '''
     form = FormNotaDebito()
-    empresa = EmpresaModel.query.filter_by(nome=nome).first()
+    empresa = EmpresaModel.query.filter_by(id=id).first()
     if form.validate_on_submit():
-    
         notas = form.notas.data + empresa.notas
         debitos = form.debitos.data + empresa.debitos
-        indice = empresa.indice
+        indice = 50
         if notas != 0:
             indice = indice * ((1 + 0.02)**notas)
         if debitos != 0:
@@ -72,10 +71,12 @@ def adicionar_notas_debitos(nome):
         empresa_atualizada = EmpresaModel(indice=indice, 
                                           notas=notas,
                                           debitos=debitos,
-                                          nome=nome)
+                                          nome=empresa.nome,
+                                          id=id)
         db.session.merge(empresa_atualizada)
         db.session.commit()
         return redirect("/index")
     return render_template("add_notas_debitos.html", 
                            form=form,
-                           nome=nome)
+                           nome=empresa.nome,
+                           id=id)
