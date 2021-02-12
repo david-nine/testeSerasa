@@ -1,5 +1,16 @@
 {%extends "base.html"%}
 {%block main%}
+{% if empresas != []: %}
+<style>
+    td, th{
+        border: 1px solid black;
+        border-collapse: collapse;
+        padding: 3px;
+    }
+    table{
+        border-collapse: collapse;
+    }
+</style>
 <table>
     <tr>
         <th>nome</th>
@@ -8,17 +19,18 @@
         <th>debitos</th>
         <th></th>
     </tr>
-    {% if empresas != []: %}
-    {% for empresa in empresas %}
+    {% for empresa in empresas: %}
     <tr>
-        <td>empresa.nome</td>
-        <td>empresa.indice</td>
-        <td>empresa.notas</td>
-        <td>empresa.debitos</td>
+        <td>{{empresa.nome}}</td>
+        <td>{{empresa.indice}}</td>
+        <td>{{empresa.notas}}</td>
+        <td>{{empresa.debitos}}</td>
         <td><a href="/adicionar_notas_debitos/{{empresa.nome}}">Editar</a></td>
     </tr>
     {% endfor %}
-    {% endif %}
 </table>
-<a href="/cadastrar_empresa">Adicionar empresas</a>
+{% else: %}
+<p>Não há empresas cadastradas</p>
+{% endif %}
+<a href="/cadastrar_empresa">Adicionar empresa</a>
 {%endblock%}

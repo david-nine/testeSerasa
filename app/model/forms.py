@@ -1,13 +1,14 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, IntegerField, SubmitField
-from wtforms.validators import Required
-
+from wtforms.validators import InputRequired, ValidationError
+from app import db
+from app.model.models import EmpresaModel
 '''
 Este arquivo contém os formulários para adiconar uma empresa e para
 adicionar notas e débitos uma empresa
 '''
 
-class formEmpresa(FlaskForm):
+class FormEmpresa(FlaskForm):
     '''Formulário para adicionar empresas manualmente no banco
 
     Atributes
@@ -17,10 +18,17 @@ class formEmpresa(FlaskForm):
     submit : boolean
         Botão para enviar o formulário 
     '''
-    nome = StringField("Nome da empresa", validatos=[Required("colque o nome da empresa")])
+    nome = StringField("Nome da empresa", 
+                       validators=[InputRequired("Coloque o nome da empresa")])
     submit = SubmitField("Confirmar")
 
-class formNotaDebito(FlaskForm):
+
+    def validate_nome(self, nome):
+        verificacao = EmpresaModel.query.filter_by(nome=nome.data).first()
+        if verificacao != None:
+            raise ValidationError('Ja tem essa empresa')
+
+class FormNotaDebito(FlaskForm):
     '''Formulário para adicionar notas e débitos a uma empresa
 
     Atributes
@@ -32,6 +40,8 @@ class formNotaDebito(FlaskForm):
     submit : boolean
         Botão para enviar o formulário
     '''
-    notas = IntegerField("Quantidade de notas")
-    debitos = IntegerField("Quantidade de débitos")
+    notas = IntegerField("Quantidade de notas", 
+                         validators=[InputRequired("Digite um número inteiro")])
+    debitos = IntegerField("Quantidade de débitos", 
+                           validators=[InputRequired("Digite um número inteiro")])
     submit = SubmitField("Confirmar")

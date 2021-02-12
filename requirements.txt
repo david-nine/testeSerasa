@@ -1,4 +1,4 @@
-flask
+flask 
 flask_wtf
 flask_sqlalchemy
 jinja2
