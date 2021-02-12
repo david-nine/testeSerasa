@@ -33,8 +33,7 @@ def cadastrar_empresa():
     form = FormEmpresa()
     if form.validate_on_submit():
         empresa = EmpresaModel(nome=form.nome.data)
-        db.session.add(empresa)
-        db.session.commit()
+        empresa.create(empresa)
         return redirect("/index")
     return render_template("cadastrar_empresa.html", 
                            form=form)
@@ -55,26 +54,9 @@ def adicionar_notas_debitos(id):
     form = FormNotaDebito()
     empresa = EmpresaModel.query.filter_by(id=id).first()
     if form.validate_on_submit():
-        notas = form.notas.data + empresa.notas
-        debitos = form.debitos.data + empresa.debitos
-        indice = 50
-        if notas != 0:
-            indice = indice * ((1 + 0.02)**notas)
-        if debitos != 0:
-            indice = indice * ((0.96)**debitos)
-        indice = round(indice)
-        if indice > 100:
-            indice = 100
-        elif indice < 0:
-            indice = 0
-
-        empresa_atualizada = EmpresaModel(indice=indice, 
-                                          notas=notas,
-                                          debitos=debitos,
-                                          nome=empresa.nome,
-                                          id=id)
-        db.session.merge(empresa_atualizada)
-        db.session.commit()
+        empresa.addDebitos(form.debitos.data)
+        empresa.addNotas(form.notas.data)
+        empresa.save()
         return redirect("/index")
     return render_template("add_notas_debitos.html", 
                            form=form,

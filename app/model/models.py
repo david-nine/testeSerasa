@@ -28,3 +28,34 @@ class EmpresaModel(db.Model):
 
     def __repr__(self):
         return f"EmpresaModel('{self.id}', '{self.nome}', '{self.indice}', '{self.notas}', '{self.debitos}')"
+
+    def addNotas(self, nota):
+        self.notas += nota
+        self.calculaIndice()
+
+    def addDebitos(self, debito):
+        self.debitos += debito
+        self.calculaIndice()
+
+    def calculaIndice(self):
+        self.indice = 50
+        if self.notas != 0:
+            self.indice = self.indice * ((1 + 0.02)**self.notas)
+        if self.debitos != 0:
+            self.indice = self.indice * ((0.96)**self.debitos)
+        self.indice = round(self.indice)
+        if self.indice > 100:
+            self.indice = 100
+        elif self.indice < 1:
+            self.indice = 1
+
+    def save(self):
+        db.session.merge(self)
+        db.session.commit()
+
+    def create(self, empresa):
+        db.session.add(empresa)
+        db.session.commit()
+
+
+
